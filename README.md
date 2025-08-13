@@ -71,9 +71,4 @@ curl -X POST http://localhost:8081/propostas -H "Content-Type: application/json"
 Alterar status:
 curl -X PATCH http://localhost:8081/propostas/{propostaId}/status -H "Content-Type: application/json" -d "{\"novoStatus\":\"Aprovada\"}"
 
-------------------------------------------------------------
-TROUBLESHOOTING
-------------------------------------------------------------
-- Unknown topic or partition: verifique se os tópicos foram criados.
-- Failed to resolve 'kafka:9092': no host → troque para localhost:9094 quando rodar no host.
-- Unknown column 'p.Id': aplique migrations no banco correto.
+
