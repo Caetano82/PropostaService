@@ -16,7 +16,7 @@ public class AppDbContext : DbContext
         {
             e.HasKey(x => x.Id);
             e.Property(x => x.PropostaId).IsRequired();
-            e.Property(x => x.DataContratacaoUtc).IsRequired();
+            e.Property(x => x.DataUtc).IsRequired();
             e.Property(x => x.Status).HasMaxLength(20).IsRequired();
         });
 

@@ -2,15 +2,19 @@ namespace ContratacaoService.Domain.Entities;
 
 public class Contrato
 {
-    public Guid Id { get; private set; }
-    public Guid PropostaId { get; private set; }
-    public DateTime DataContratacaoUtc { get; private set; }
-    public string Status { get; private set; } = "Efetuado";
+    public Guid Id { get; set; }
+    public Guid PropostaId { get; set; }
+    public string Status { get; set; } = "EmAnalise";
+    public DateTime DataUtc { get; set; } 
+
+    protected Contrato() { }
 
     public Contrato(Guid propostaId, DateTime? dataUtc = null)
     {
         Id = Guid.NewGuid();
         PropostaId = propostaId;
-        DataContratacaoUtc = dataUtc ?? DateTime.UtcNow;
+        DataUtc = dataUtc ?? DateTime.UtcNow;
     }
+
+    public void Aprovar() => Status = "Aprovado";
 }

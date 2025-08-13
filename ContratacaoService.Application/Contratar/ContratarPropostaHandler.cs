@@ -27,6 +27,6 @@ public class ContratarPropostaHandler
         var contrato = new Contrato(snap.PropostaId);
         await _repo.AddAsync(contrato, ct);
 
-        return new ContratarPropostaResult(contrato.Id, contrato.PropostaId, contrato.DataContratacaoUtc);
+        return new ContratarPropostaResult(contrato.Id, contrato.PropostaId, contrato.DataUtc);
     }
 }

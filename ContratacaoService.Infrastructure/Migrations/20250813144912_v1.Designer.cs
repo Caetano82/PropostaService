@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContratacaoService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250813131128_v1")]
+    [Migration("20250813144912_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -31,16 +31,47 @@ namespace ContratacaoService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTime>("DataUtc")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("PropostaId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Contratos");
+                });
+
+            modelBuilder.Entity("ContratacaoService.Domain.Entities.PropostaSnapshot", b =>
+                {
+                    b.Property<Guid>("PropostaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Cliente")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("PropostaId");
+
+                    b.ToTable("Propostas");
                 });
 #pragma warning restore 612, 618
         }
