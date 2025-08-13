@@ -12,9 +12,9 @@ public class PropostaSnapshotRepository : IPropostaSnapshotRepository
 
     public async Task UpsertAsync(PropostaSnapshot snapshot, CancellationToken ct)
     {
-        var existing = await _db.Propostas.FindAsync(new object?[] { snapshot.PropostaId }, ct);
+        var existing = await _db.PropostasSnapShot.FindAsync(new object?[] { snapshot.PropostaId }, ct);
         if (existing is null)
-            _db.Propostas.Add(snapshot);
+            _db.PropostasSnapShot.Add(snapshot);
         else
             _db.Entry(existing).CurrentValues.SetValues(snapshot);
 
@@ -22,5 +22,5 @@ public class PropostaSnapshotRepository : IPropostaSnapshotRepository
     }
 
     public Task<PropostaSnapshot?> GetAsync(Guid propostaId, CancellationToken ct)
-        => _db.Propostas.AsNoTracking().FirstOrDefaultAsync(p => p.PropostaId == propostaId, ct);
+        => _db.PropostasSnapShot.AsNoTracking().FirstOrDefaultAsync(p => p.PropostaId == propostaId, ct);
 }

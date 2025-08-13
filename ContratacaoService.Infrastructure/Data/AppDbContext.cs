@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt) { }
 
     public DbSet<Contrato> Contratos => Set<Contrato>();
-    public DbSet<PropostaSnapshot> Propostas => Set<PropostaSnapshot>();
+    public DbSet<PropostaSnapshot> PropostasSnapShot => Set<PropostaSnapshot>();
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
