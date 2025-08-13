@@ -1,0 +1,63 @@
+## Ignore arquivos de build, pacotes e configurações locais
+
+# Build Results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Rider / VS Code / VS for Mac
+.idea/
+.vscode/
+.vscode-test/
+
+# Logs
+*.log
+
+# Visual Studio
+.vs/
+
+# Arquivos de pacotes
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+# Arquivos temporários do MSBuild
+project.lock.json
+project.fragment.lock.json
+
+# Arquivos do NuGet
+*.nuget.props
+*.nuget.targets
+
+# Arquivos de publish
+publish/
+App_Data/
+*.Publish.xml
+
+# Arquivos de testes
+TestResults/
+*.coverage
+*.coveragexml
+*.codecoverage
+
+
+
+# Arquivos do Secrets
+secrets.json
+
+
+
+# Arquivos do docker
+docker-compose.override.yml
+/Patio.Api/wwwroot/hls
