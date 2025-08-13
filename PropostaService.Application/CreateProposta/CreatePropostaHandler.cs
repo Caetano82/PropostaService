@@ -20,7 +20,7 @@ public class CreatePropostaHandler
         var proposta = new Proposta(Guid.NewGuid(), cmd.Cliente, cmd.Valor);
         await _repo.AddAsync(proposta, ct);
 
-        var evt = new PropostaCriada(proposta.Id, proposta.Cliente, proposta.Valor, DateTime.UtcNow);
+        var evt = new PropostaCriada(proposta.Id, proposta.Cliente, proposta.Valor, proposta.Status, DateTime.UtcNow);
         await _publisher.PublishAsync(evt, ct);
 
         return new CreatePropostaResult(proposta.Id);

@@ -13,8 +13,8 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../ContratacaoService.Domain/ContratacaoService.Domain.csproj" />
-    <ProjectReference Include="../ContratacaoService.Application/ContratacaoService.Application.csproj" />
+    <ProjectReference Include="..\ContratacaoService.Application\ContratacaoService.Application.csproj" />
+    <ProjectReference Include="..\ContratacaoService.Domain\ContratacaoService.Domain.csproj" />
     <ProjectReference Include="..\Shared.Contracts\Shared.Contracts.csproj" />
   </ItemGroup>
 

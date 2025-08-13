@@ -1,8 +1,11 @@
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PropostaService.Application.AlterarStatus;
 using PropostaService.Application.CreateProposta;
+using PropostaService.Application.GetProposta;
+using PropostaService.Domain.ListPropostas;
 using PropostaService.Domain.Ports;
 using PropostaService.Infrastructure.Adapters;
 using PropostaService.Infrastructure.Data;
@@ -21,14 +24,22 @@ public static class DependencyInjection
         services.AddScoped<IPropostaRepository, PropostaRepository>();
         services.AddScoped<IEventPublisher, KafkaEventPublisher>();
         services.AddScoped<CreatePropostaHandler>();
+        services.AddScoped<ListPropostasHandler>();
+        services.AddScoped<GetPropostaHandler>();
+        services.AddScoped<AlterarStatusHandler>();
 
         services.AddMassTransit(x =>
         {
-            x.UsingInMemory((context, busCfg) => { /* busCfg.ConfigureEndpoints(context); */ });
+            x.UsingInMemory((context, busCfg) => { });
 
             x.AddRider(r =>
             {
-                r.AddProducer<PropostaCriada>(cfg["Kafka:Topics:Orders"] ?? "orders");
+                // 👉 tópicos distintos para cada tipo de evento
+                var topicCreated = cfg["Kafka:Topics:PropostasCriadas"] ?? "propostas-created";
+                var topicStatus = cfg["Kafka:Topics:PropostasStatusAlterados"] ?? "propostas-status-changed";
+
+                r.AddProducer<PropostaCriada>(topicCreated);
+                r.AddProducer<PropostaStatusAlterado>(topicStatus);
 
                 r.UsingKafka((context, k) =>
                 {

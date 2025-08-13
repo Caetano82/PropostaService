@@ -10,11 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Proposta> Propostas => Set<Proposta>();
 
     // Update-Database -Project PropostaService.Infrastructure -StartupProject PropostaService.Api
-
-   // Add-Migration v1 -Project PropostaService.Infrastructure -StartupProject PropostaService.Api -OutputDir Migrations
-
-
-
+    // Add-Migration v1 -Project PropostaService.Infrastructure -StartupProject PropostaService.Api -OutputDir Migrations
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
@@ -23,7 +19,7 @@ public class AppDbContext : DbContext
             e.HasKey(x => x.Id);
             e.Property(x => x.Cliente).IsRequired().HasMaxLength(200);
             e.Property(x => x.Valor).HasColumnType("decimal(18,2)");
-            e.Property(x => x.Status).HasMaxLength(50);
+            e.Property(x => x.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
         });
     }
 }

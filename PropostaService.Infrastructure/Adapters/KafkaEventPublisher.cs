@@ -6,8 +6,17 @@ namespace PropostaService.Infrastructure.Adapters;
 
 public class KafkaEventPublisher : IEventPublisher
 {
-    private readonly ITopicProducer<PropostaCriada> _producer;
-    public KafkaEventPublisher(ITopicProducer<PropostaCriada> producer) => _producer = producer;
+    private readonly ITopicProducer<PropostaCriada> _createdProducer;
+    private readonly ITopicProducer<PropostaStatusAlterado> _statusProducer;
 
-    public Task PublishAsync(PropostaCriada evt, CancellationToken ct) => _producer.Produce(evt, ct);
+    public KafkaEventPublisher(
+        ITopicProducer<PropostaCriada> createdProducer,
+        ITopicProducer<PropostaStatusAlterado> statusProducer)
+    {
+        _createdProducer = createdProducer;
+        _statusProducer = statusProducer;
+    }
+
+    public Task PublishAsync(PropostaCriada evt, CancellationToken ct) => _createdProducer.Produce(evt, ct);
+    public Task PublishAsync(PropostaStatusAlterado evt, CancellationToken ct) => _statusProducer.Produce(evt, ct);
 }

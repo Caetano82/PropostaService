@@ -1,4 +1,4 @@
-using ContratacaoService.Domain.Entities;
+﻿using ContratacaoService.Domain.Entities;
 
 namespace ContratacaoService.Domain.Ports;
 
