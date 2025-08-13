@@ -22,19 +22,18 @@ public static class DependencyInjection
 
         // Repositórios e handlers
         services.AddScoped<IContratoRepository, ContratoRepository>();
-        services.AddScoped<IPropostaSnapshotRepository, PropostaSnapshotRepository>(); // essencial
+        services.AddScoped<IPropostaSnapshotRepository, PropostaSnapshotRepository>(); 
         services.AddScoped<ProcessarPropostaHandler>();
         services.AddScoped<ContratarPropostaHandler>();
 
-        // MassTransit (bus in-memory + rider Kafka)
+
         services.AddMassTransit(x =>
         {
-            // Bus para resolver IBus (não usado para tráfego; apenas dependências internas)
             x.UsingInMemory((context, busCfg) => { });
 
             x.AddRider(r =>
             {
-                // Consumers REGISTRADOS no rider
+                // registre os consumers no RIDER
                 r.AddConsumer<PropostaCriadaConsumer>();
                 r.AddConsumer<PropostaStatusAlteradoConsumer>();
 
@@ -42,18 +41,26 @@ public static class DependencyInjection
                 {
                     k.Host(cfg["Kafka:BootstrapServers"]);
 
-                    var topic = cfg["Kafka:Topics:PropostasEvents"] ?? "propostas-events";
+                    var topicCreated = cfg["Kafka:Topics:PropostasCriadas"] ?? "propostas-created";
+                    var topicStatus = cfg["Kafka:Topics:PropostasStatusAlterados"] ?? "propostas-status-changed";
 
-                    // >>> groupIds DIFERENTES para evitar "same key"
                     k.TopicEndpoint<PropostaCriada>(
-                        topic,
+                        topicCreated,
                         "contratacao-service-proposta-criada",
-                        e => e.ConfigureConsumer<PropostaCriadaConsumer>(context));
+                        e =>
+                        {
+                            e.ConfigureConsumer<PropostaCriadaConsumer>(context);
+                            e.CreateIfMissing(o => { o.NumPartitions = 3; o.ReplicationFactor = 1; });
+                        });
 
                     k.TopicEndpoint<PropostaStatusAlterado>(
-                        topic,
+                        topicStatus,
                         "contratacao-service-status-alterado",
-                        e => e.ConfigureConsumer<PropostaStatusAlteradoConsumer>(context));
+                        e =>
+                        {
+                            e.ConfigureConsumer<PropostaStatusAlteradoConsumer>(context);
+                            e.CreateIfMissing(o => { o.NumPartitions = 3; o.ReplicationFactor = 1; });
+                        });
                 });
             });
         });

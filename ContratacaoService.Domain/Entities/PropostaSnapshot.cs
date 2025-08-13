@@ -9,4 +9,11 @@ public class PropostaSnapshot
     public decimal Valor { get; set; }
     public PropostaStatus Status { get; set; }
     public DateTime UpdatedAtUtc { get; set; }
+
+
+    public void Update(PropostaStatus status, DateTime updatedAtUtc)
+    {
+        Status = status;
+        UpdatedAtUtc = updatedAtUtc;
+    }
 }

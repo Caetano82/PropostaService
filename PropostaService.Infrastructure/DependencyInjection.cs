@@ -22,11 +22,13 @@ public static class DependencyInjection
                 ServerVersion.AutoDetect(cfg.GetConnectionString("MySql"))));
 
         services.AddScoped<IPropostaRepository, PropostaRepository>();
+
         services.AddScoped<IEventPublisher, KafkaEventPublisher>();
         services.AddScoped<CreatePropostaHandler>();
         services.AddScoped<ListPropostasHandler>();
         services.AddScoped<GetPropostaHandler>();
         services.AddScoped<AlterarStatusHandler>();
+        services.AddScoped<IPropostaStatusPublisher, KafkaPropostaStatusPublisher>();
 
         services.AddMassTransit(x =>
         {
@@ -34,7 +36,6 @@ public static class DependencyInjection
 
             x.AddRider(r =>
             {
-                // 👉 tópicos distintos para cada tipo de evento
                 var topicCreated = cfg["Kafka:Topics:PropostasCriadas"] ?? "propostas-created";
                 var topicStatus = cfg["Kafka:Topics:PropostasStatusAlterados"] ?? "propostas-status-changed";
 
