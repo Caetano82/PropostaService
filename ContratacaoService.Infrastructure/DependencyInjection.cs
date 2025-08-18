@@ -15,12 +15,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration cfg)
     {
-        // DbContext
+
         services.AddDbContext<AppDbContext>(opt =>
             opt.UseMySql(cfg.GetConnectionString("MySql"),
                 ServerVersion.AutoDetect(cfg.GetConnectionString("MySql"))));
-
-        // Repositórios e handlers
+        
         services.AddScoped<IContratoRepository, ContratoRepository>();
         services.AddScoped<IPropostaSnapshotRepository, PropostaSnapshotRepository>(); 
         services.AddScoped<ProcessarPropostaHandler>();
@@ -33,7 +32,6 @@ public static class DependencyInjection
 
             x.AddRider(r =>
             {
-                // registre os consumers no RIDER
                 r.AddConsumer<PropostaCriadaConsumer>();
                 r.AddConsumer<PropostaStatusAlteradoConsumer>();
 

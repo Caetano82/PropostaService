@@ -4,7 +4,7 @@ using PropostaService.Application.CreateProposta;
 using PropostaService.Application.GetProposta;
 using PropostaService.Application.ListPropostas;
 using PropostaService.Domain.ListPropostas;
-using Shared.Contracts; // PropostaStatus enum
+using Shared.Contracts;
 
 namespace PropostaService.Api.Controllers;
 
